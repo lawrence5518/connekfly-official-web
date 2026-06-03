@@ -3,7 +3,11 @@ import { apkDownloadUrl, inviteUrl, normalizeCode } from "@/lib/invite";
 import { InviteActions } from "@/components/InviteActions";
 import { PhonePreview } from "@/components/PhonePreview";
 
-type Props = { searchParams?: { ref?: string } };
+type Props = {
+  searchParams?: {
+    ref?: string;
+  };
+};
 
 export default function HomePage({ searchParams }: Props) {
   const code = normalizeCode(searchParams?.ref || "connekfly");

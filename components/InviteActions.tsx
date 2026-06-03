@@ -9,7 +9,7 @@ type Props = {
 };
 
 export function InviteActions({ referralCode, inviteLink, downloadLink }: Props) {
-  const [copied, setCopied] = useState<string>("");
+  const [copied, setCopied] = useState("");
 
   async function copy(value: string, label: string) {
     await navigator.clipboard.writeText(value);

@@ -3,7 +3,11 @@ import { apkDownloadUrl, inviteUrl, normalizeCode } from "@/lib/invite";
 import { InviteActions } from "@/components/InviteActions";
 import { PhonePreview } from "@/components/PhonePreview";
 
-type Props = { params: { code: string } };
+type Props = {
+  params: {
+    code: string;
+  };
+};
 
 export default function InvitePage({ params }: Props) {
   const code = normalizeCode(params.code);
