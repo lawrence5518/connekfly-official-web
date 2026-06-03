@@ -2,15 +2,16 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "ConnekFly — Web Oficial",
-  description: "Web oficial de ConnekFly para lanzamiento, APK, tokens, planes, Stripe y Wise.",
+  title: "ConnekFly — APK Tester",
+  description: "Descarga oficial de ConnekFly APK tester con QR y link único.",
+  openGraph: {
+    title: "ConnekFly APK Tester",
+    description: "Chat, Wall, FlyMarket y SmartCRM móvil en una sola app.",
+    type: "website"
+  }
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es">
       <body>{children}</body>

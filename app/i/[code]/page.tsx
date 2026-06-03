@@ -3,10 +3,10 @@ import { apkDownloadUrl, inviteUrl, normalizeCode } from "@/lib/invite";
 import { InviteActions } from "@/components/InviteActions";
 import { PhonePreview } from "@/components/PhonePreview";
 
-type Props = { searchParams?: { ref?: string } };
+type Props = { params: { code: string } };
 
-export default function HomePage({ searchParams }: Props) {
-  const code = normalizeCode(searchParams?.ref || "connekfly");
+export default function InvitePage({ params }: Props) {
+  const code = normalizeCode(params.code);
   const link = inviteUrl(code);
   const download = apkDownloadUrl(code);
 
