@@ -1,20 +1,14 @@
-import type { Metadata, Viewport } from "next";
+import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "ConnekFly — APK Tester",
-  description: "Descarga oficial de ConnekFly APK tester con QR y link único.",
+  title: "ConnekFly — Descarga oficial",
+  description: "Entrada oficial a ConnekFly con invitación, QR y descarga segura.",
   openGraph: {
-    title: "ConnekFly APK Tester",
+    title: "ConnekFly",
     description: "Chat, Wall, FlyMarket y SmartCRM móvil en una sola app.",
     type: "website"
   }
-};
-
-export const viewport: Viewport = {
-  themeColor: "#8d68ff",
-  width: "device-width",
-  initialScale: 1
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

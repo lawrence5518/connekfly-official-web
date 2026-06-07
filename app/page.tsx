@@ -1,40 +1,40 @@
-import { SUPPORT_EMAIL } from "@/lib/constants";
-import { apkDownloadUrl, inviteUrl, normalizeCode } from "@/lib/invite";
+import { apkDownloadUrl, appInviteUrl, inviteUrl, normalizeCode } from "@/lib/invite";
+import { supportEmail } from "@/lib/env";
 import { InviteActions } from "@/components/InviteActions";
 import { PhonePreview } from "@/components/PhonePreview";
 
-type Props = {
-  searchParams?: {
-    ref?: string;
-  };
-};
+type Props = { searchParams?: { ref?: string } };
 
 export default function HomePage({ searchParams }: Props) {
   const code = normalizeCode(searchParams?.ref || "connekfly");
   const link = inviteUrl(code);
   const download = apkDownloadUrl(code);
+  const appLink = appInviteUrl(code);
 
   return (
     <main className="page">
+      <div className="cloud one" />
+      <div className="cloud two" />
+
       <div className="shell">
         <nav className="nav">
           <div className="brand">
             <span className="logo"><span className="logo-mark" /></span>
             <span>Connek<span className="gradient">Fly</span></span>
           </div>
-          <div className="nav-pill">APK tester oficial</div>
+          <div className="nav-pill">Descarga oficial</div>
         </nav>
 
         <section className="hero">
           <div className="card hero-card">
             <div className="kicker">QR único · Link de invitación · Descarga oficial</div>
-            <h1>Connek<span className="gradient">Fly</span> ya está listo para probar.</h1>
+            <h1>Connek<span className="gradient">Fly</span> ya está listo para entrar.</h1>
             <p className="lead">
-              Descarga la APK tester y entra al ecosistema social/comercial:
+              Descarga ConnekFly y entra al ecosistema social/comercial:
               Chat, Wall, FlyMarket y SmartCRM móvil.
             </p>
 
-            <InviteActions referralCode={code} inviteLink={link} downloadLink={download} />
+            <InviteActions referralCode={code} inviteLink={link} appLink={appLink} downloadLink={download} />
 
             <div className="status-row">
               <span className="status">Chat</span>
@@ -62,7 +62,7 @@ export default function HomePage({ searchParams }: Props) {
               </h2>
               <p className="lead" style={{ fontSize: 16, marginBottom: 10 }}>
                 Comparte este link o QR. La persona entra a la web oficial,
-                descarga la APK y queda asociada al código de invitación.
+                abre ConnekFly y queda asociada al código de invitación.
               </p>
               <input className="link-box" readOnly value={link} />
             </div>
@@ -72,7 +72,7 @@ export default function HomePage({ searchParams }: Props) {
         <section className="features">
           <div className="feature">
             <h3>Social primero</h3>
-            <p>Prueba chat, Wall, perfiles, media, contactos y comunidad.</p>
+            <p>Chat, Wall, perfiles, media, contactos y comunidad.</p>
           </div>
           <div className="feature">
             <h3>FlyMarket conectado</h3>
@@ -85,7 +85,7 @@ export default function HomePage({ searchParams }: Props) {
         </section>
 
         <footer className="footer">
-          Soporte: {SUPPORT_EMAIL} · ConnekFly APK tester
+          Soporte: {supportEmail()} · ConnekFly
         </footer>
       </div>
     </main>

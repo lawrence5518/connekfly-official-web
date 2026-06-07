@@ -1,4 +1,4 @@
-import { APK_DOWNLOAD_URL, SITE_URL } from "@/lib/constants";
+import { siteUrl, apkDownloadUrl as envApkDownloadUrl } from "@/lib/env";
 
 export function normalizeCode(code?: string | null): string {
   const clean = (code || "connekfly")
@@ -10,10 +10,17 @@ export function normalizeCode(code?: string | null): string {
 }
 
 export function inviteUrl(code: string): string {
-  return `${SITE_URL}/i/${encodeURIComponent(normalizeCode(code))}`;
+  return `${siteUrl()}/i/${encodeURIComponent(normalizeCode(code))}`;
+}
+
+export function appInviteUrl(code: string): string {
+  return `connekfly://invite?code=${encodeURIComponent(normalizeCode(code))}`;
 }
 
 export function apkDownloadUrl(code: string): string {
-  const separator = APK_DOWNLOAD_URL.includes("?") ? "&" : "?";
-  return `${APK_DOWNLOAD_URL}${separator}ref=${encodeURIComponent(normalizeCode(code))}`;
+  const external = envApkDownloadUrl();
+  if (!external) return "";
+
+  const separator = external.includes("?") ? "&" : "?";
+  return `${external}${separator}ref=${encodeURIComponent(normalizeCode(code))}`;
 }
