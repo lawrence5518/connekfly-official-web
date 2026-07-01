@@ -1,93 +1,144 @@
-import { apkDownloadUrl, appInviteUrl, inviteUrl, normalizeCode } from "@/lib/invite";
-import { supportEmail } from "@/lib/env";
-import { InviteActions } from "@/components/InviteActions";
-import { PhonePreview } from "@/components/PhonePreview";
+import { BrandMark, StatusPill } from "./components/Brand";
 
-type Props = { searchParams?: { ref?: string } };
+const apkUrl = process.env.NEXT_PUBLIC_CONNEKFLY_APK_URL || "https://github.com/lawrence5518/connekfly-official-web/releases/latest/download/connekfly-tester.apk";
+const playUrl = process.env.NEXT_PUBLIC_GOOGLE_PLAY_URL || "";
+const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "ConnekFly.app@gmail.com";
 
-export default function HomePage({ searchParams }: Props) {
-  const code = normalizeCode(searchParams?.ref || "connekfly");
-  const link = inviteUrl(code);
-  const download = apkDownloadUrl(code);
-  const appLink = appInviteUrl(code);
-
+export default function OfficialHomePage() {
   return (
-    <main className="page">
-      <div className="cloud one" />
-      <div className="cloud two" />
-
-      <div className="shell">
-        <nav className="nav">
-          <div className="brand">
-            <span className="logo"><span className="logo-mark" /></span>
-            <span>Connek<span className="gradient">Fly</span></span>
-          </div>
-          <div className="nav-pill">Descarga oficial</div>
+    <main className="page-shell">
+      <header className="nav">
+        <BrandMark />
+        <nav className="nav-links">
+          <a href="#descarga">Descarga</a>
+          <a href="#ecosistema">Ecosistema</a>
+          <a href="#pagos">Pagos</a>
+          <a href="#planes">Planes</a>
         </nav>
+      </header>
 
-        <section className="hero">
-          <div className="card hero-card">
-            <div className="kicker">QR único · Link de invitación · Descarga oficial</div>
-            <h1>Connek<span className="gradient">Fly</span> ya está listo para entrar.</h1>
-            <p className="lead">
-              Descarga ConnekFly y entra al ecosistema social/comercial:
-              Chat, Wall, FlyMarket y SmartCRM móvil.
+      <section className="hero">
+        <div className="hero-card">
+          <div className="status-row">
+            <StatusPill>Web oficial</StatusPill>
+            <StatusPill tone="green">APK pruebas</StatusPill>
+            <StatusPill tone="gold">Stripe + Wise/Wish</StatusPill>
+          </div>
+
+          <h1>ConnekFly está naciendo como ecosistema real.</h1>
+
+          <p>
+            La web oficial será el centro público: descarga de APK, planes, tokens,
+            stickers, avatares, boosts oficiales y contacto directo con ConnekFly.
+          </p>
+
+          <div id="descarga" className="hero-actions">
+            {apkUrl ? (
+              <a className="primary-button" href={apkUrl}>Descargar APK</a>
+            ) : (
+              <span className="primary-button">APK pendiente de subir</span>
+            )}
+
+            {playUrl ? (
+              <a className="soft-button" href={playUrl}>Google Play</a>
+            ) : (
+              <span className="soft-button">Google Play pendiente</span>
+            )}
+
+            <a className="soft-button" href={`mailto:${contactEmail}`}>
+              Contacto oficial
+            </a>
+          </div>
+        </div>
+
+        <aside className="panel">
+          <h3>ConnekFly combina</h3>
+          <ul>
+            <li>Chat, Wall, Tik, Place y Go como entrada social.</li>
+            <li>CRM como núcleo de monetización.</li>
+            <li>Wallet/Tokens para funciones internas oficiales.</li>
+            <li>LIA como inteligencia invisible y guardiana.</li>
+          </ul>
+        </aside>
+      </section>
+
+      <section id="ecosistema" className="section">
+        <div className="section-header">
+          <div>
+            <h2>Ecosistema</h2>
+            <p className="section-lead">
+              Social Free atrae usuarios; CRM, tokens, boosts y Workstation generan renta.
             </p>
-
-            <InviteActions referralCode={code} inviteLink={link} appLink={appLink} downloadLink={download} />
-
-            <div className="status-row">
-              <span className="status">Chat</span>
-              <span className="status">Wall</span>
-              <span className="status">FlyMarket</span>
-              <span className="status">SmartCRM</span>
-            </div>
           </div>
+        </div>
 
-          <div className="card phone-wrap">
-            <PhonePreview />
-          </div>
-        </section>
+        <div className="grid-3">
+          <article className="feature-card">
+            <h3>Social Free</h3>
+            <p>Chat, publicaciones, vitrinas, ubicación y contenido compartible.</p>
+          </article>
+          <article className="feature-card">
+            <h3>CRM</h3>
+            <p>Clientes, nichos, señales de LIA y oportunidades reales.</p>
+          </article>
+          <article className="feature-card">
+            <h3>Tokens</h3>
+            <p>Boosts, destacados, stickers, avatares y funciones premium internas.</p>
+          </article>
+        </div>
+      </section>
 
-        <section className="card qr-area">
-          <div className="qr-grid">
-            <div className="qr-box">
-              <img src={`/api/qr?code=${encodeURIComponent(code)}&url=${encodeURIComponent(link)}`} alt="QR de invitación ConnekFly" />
-            </div>
+      <section id="pagos" className="section">
+        <div className="section-header">
+          <div>
+            <h2>Pagos oficiales</h2>
+            <p className="section-lead">
+              Solo pagos oficiales del ecosistema ConnekFly. No custodia dinero de terceros.
+            </p>
+          </div>
+        </div>
 
-            <div>
-              <div className="code">{code}</div>
-              <h2 style={{ margin: "0 0 8px", letterSpacing: "-0.04em" }}>
-                Link único de invitación
-              </h2>
-              <p className="lead" style={{ fontSize: 16, marginBottom: 10 }}>
-                Comparte este link o QR. La persona entra a la web oficial,
-                abre ConnekFly y queda asociada al código de invitación.
-              </p>
-              <input className="link-box" readOnly value={link} />
-            </div>
-          </div>
-        </section>
+        <div className="grid-2">
+          <article className="plan-card">
+            <StatusPill>Stripe</StatusPill>
+            <h3>Tokens / CRM Pro</h3>
+            <p>Checkout preparado para tokens y suscripciones oficiales.</p>
+            <form action="/api/stripe/checkout" method="post" className="card-actions">
+              <input type="hidden" name="product" value="tokens" />
+              <button className="primary-button" type="submit">Comprar tokens</button>
+            </form>
+          </article>
 
-        <section className="features">
-          <div className="feature">
-            <h3>Social primero</h3>
-            <p>Chat, Wall, perfiles, media, contactos y comunidad.</p>
-          </div>
-          <div className="feature">
-            <h3>FlyMarket conectado</h3>
-            <p>Publica productos o servicios y contacta por chat directo.</p>
-          </div>
-          <div className="feature">
-            <h3>CRM como apoyo</h3>
-            <p>SmartCRM organiza interesados, clientes, agenda y catálogo.</p>
-          </div>
-        </section>
+          <article className="plan-card">
+            <StatusPill tone="gold">Wise/Wish</StatusPill>
+            <h3>Pagos alternativos</h3>
+            <p>Base preparada para conectar el proveedor cuando estén los datos finales.</p>
+            <form action="/api/wise/create-intent" method="post" className="card-actions">
+              <button className="soft-button" type="submit">Preparar pago</button>
+            </form>
+          </article>
+        </div>
+      </section>
 
-        <footer className="footer">
-          Soporte: {supportEmail()} · ConnekFly
-        </footer>
-      </div>
+      <section id="planes" className="section">
+        <div className="grid-3">
+          <article className="plan-card">
+            <StatusPill>Free</StatusPill>
+            <h3>Social Free</h3>
+            <p>Entrada orgánica, comunidad y viralidad.</p>
+          </article>
+          <article className="plan-card">
+            <StatusPill tone="gold">Pro</StatusPill>
+            <h3>CRM Pro</h3>
+            <p>Plan principal para negocios, equipos y señales LIA.</p>
+          </article>
+          <article className="plan-card">
+            <StatusPill>Workstation</StatusPill>
+            <h3>Web empresarial</h3>
+            <p>Herramienta superior para productividad y equipos.</p>
+          </article>
+        </div>
+      </section>
     </main>
   );
 }

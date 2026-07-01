@@ -1,93 +1,67 @@
-import { apkDownloadUrl, appInviteUrl, inviteUrl, normalizeCode } from "@/lib/invite";
-import { supportEmail } from "@/lib/env";
-import { InviteActions } from "@/components/InviteActions";
-import { PhonePreview } from "@/components/PhonePreview";
+import { BrandMark, StatusPill } from "../../components/Brand";
 
-type Props = { params: { code: string } };
+const APK_URL =
+  process.env.NEXT_PUBLIC_CONNEKFLY_APK_URL ||
+  "https://github.com/lawrence5518/connekfly-official-web/releases/latest/download/connekfly-tester.apk";
 
-export default function InvitePage({ params }: Props) {
-  const code = normalizeCode(params.code);
-  const link = inviteUrl(code);
-  const download = apkDownloadUrl(code);
-  const appLink = appInviteUrl(code);
+function cleanInviteCode(value: string): string {
+  return value.trim().replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 80);
+}
+
+export default async function InvitePage({
+  params,
+}: {
+  params: Promise<{ code: string }>;
+}) {
+  const { code } = await params;
+  const inviteCode = cleanInviteCode(code || "");
+  const downloadUrl = `${APK_URL}${APK_URL.includes("?") ? "&" : "?"}ref=${encodeURIComponent(inviteCode)}`;
+  const appIntentUrl = `intent://invite/${encodeURIComponent(inviteCode)}#Intent;scheme=connekfly;package=com.connekfly.app;S.invite_code=${encodeURIComponent(inviteCode)};S.ref=${encodeURIComponent(inviteCode)};end`;
 
   return (
-    <main className="page">
-      <div className="cloud one" />
-      <div className="cloud two" />
-
-      <div className="shell">
-        <nav className="nav">
-          <div className="brand">
-            <span className="logo"><span className="logo-mark" /></span>
-            <span>Connek<span className="gradient">Fly</span></span>
-          </div>
-          <div className="nav-pill">Descarga oficial</div>
+    <main className="page-shell invite-page">
+      <header className="nav">
+        <BrandMark />
+        <nav className="nav-links">
+          <a href="/">Inicio</a>
+          <a href={downloadUrl}>Descargar APK</a>
         </nav>
+      </header>
 
-        <section className="hero">
-          <div className="card hero-card">
-            <div className="kicker">QR único · Link de invitación · Descarga oficial</div>
-            <h1>Connek<span className="gradient">Fly</span> ya está listo para entrar.</h1>
-            <p className="lead">
-              Descarga ConnekFly y entra al ecosistema social/comercial:
-              Chat, Wall, FlyMarket y SmartCRM móvil.
-            </p>
-
-            <InviteActions referralCode={code} inviteLink={link} appLink={appLink} downloadLink={download} />
-
-            <div className="status-row">
-              <span className="status">Chat</span>
-              <span className="status">Wall</span>
-              <span className="status">FlyMarket</span>
-              <span className="status">SmartCRM</span>
-            </div>
+      <section className="hero invite-hero">
+        <div className="hero-card invite-card">
+          <div className="status-row">
+            <StatusPill tone="green">Invitación ConnekFly</StatusPill>
+            <StatusPill>Acceso seguro</StatusPill>
           </div>
 
-          <div className="card phone-wrap">
-            <PhonePreview />
-          </div>
-        </section>
+          <h1>Te invitaron a ConnekFly.</h1>
+          <p>
+            Abre ConnekFly para aceptar la invitación. Si todavía no tienes la app,
+            descarga la APK oficial y vuelve a este enlace después de instalarla.
+          </p>
 
-        <section className="card qr-area">
-          <div className="qr-grid">
-            <div className="qr-box">
-              <img src={`/api/qr?code=${encodeURIComponent(code)}&url=${encodeURIComponent(link)}`} alt="QR de invitación ConnekFly" />
-            </div>
+          <div className="invite-code-box">
+            <span>Código de invitación</span>
+            <strong>{inviteCode || "INVITACIÓN"}</strong>
+          </div>
 
-            <div>
-              <div className="code">{code}</div>
-              <h2 style={{ margin: "0 0 8px", letterSpacing: "-0.04em" }}>
-                Link único de invitación
-              </h2>
-              <p className="lead" style={{ fontSize: 16, marginBottom: 10 }}>
-                Comparte este link o QR. La persona entra a la web oficial,
-                abre ConnekFly y queda asociada al código de invitación.
-              </p>
-              <input className="link-box" readOnly value={link} />
-            </div>
+          <div className="hero-actions">
+            <a className="primary-button" href={appIntentUrl}>Abrir ConnekFly</a>
+            <a className="soft-button" href={downloadUrl}>Descargar APK</a>
+            <a className="soft-button" href="/">Ver web oficial</a>
           </div>
-        </section>
+        </div>
 
-        <section className="features">
-          <div className="feature">
-            <h3>Social primero</h3>
-            <p>Chat, Wall, perfiles, media, contactos y comunidad.</p>
-          </div>
-          <div className="feature">
-            <h3>FlyMarket conectado</h3>
-            <p>Publica productos o servicios y contacta por chat directo.</p>
-          </div>
-          <div className="feature">
-            <h3>CRM como apoyo</h3>
-            <p>SmartCRM organiza interesados, clientes, agenda y catálogo.</p>
-          </div>
-        </section>
-
-        <footer className="footer">
-          Soporte: {supportEmail()} · ConnekFly
-        </footer>
-      </div>
+        <aside className="panel invite-panel">
+          <h3>¿Cómo funciona?</h3>
+          <ul>
+            <li>Si tienes la app instalada, toca <strong>Abrir ConnekFly</strong>.</li>
+            <li>Si no la tienes, toca <strong>Descargar APK</strong>.</li>
+            <li>Después de instalar, vuelve a este enlace para aceptar la invitación.</li>
+          </ul>
+        </aside>
+      </section>
     </main>
   );
 }
