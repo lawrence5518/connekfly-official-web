@@ -279,3 +279,43 @@ button, input { font: inherit; }
   .phone-main { left: -16px; }
   .phone-market { right: -26px; top: 104px; }
 }
+
+/* Invitación diferida: web -> instalación -> apertura de ConnekFly */
+.invite-actions-block { margin-top: 8px; }
+.invite-primary-actions { margin-top: 0; }
+.invite-primary-actions button { border: 0; cursor: pointer; }
+.invite-status {
+  margin: 18px auto 0;
+  padding: 15px 17px;
+  max-width: 500px;
+  border-radius: 20px;
+  background: rgba(24, 199, 122, .10);
+  border: 1px solid rgba(24, 199, 122, .22);
+  text-align: left;
+}
+.invite-status strong,
+.invite-status span { display: block; }
+.invite-status strong { color: #087d4b; }
+.invite-status span { margin-top: 4px; color: var(--muted); line-height: 1.45; }
+.invite-fallback {
+  margin: 14px auto 0;
+  max-width: 500px;
+  padding: 15px 17px;
+  border-radius: 20px;
+  background: rgba(255,255,255,.46);
+  border: 1px solid rgba(103,44,255,.14);
+  text-align: left;
+}
+.invite-fallback > span { display: block; font-weight: 950; color: var(--ink-soft); }
+.invite-fallback p { margin: 5px 0 0; font-size: 14px; line-height: 1.5; }
+.invite-fallback strong { color: var(--purple-strong); overflow-wrap: anywhere; }
+.invite-home-link { margin-top: 20px; }
+.invite-error {
+  margin: 20px auto;
+  padding: 16px;
+  border-radius: 18px;
+  color: #a5203e;
+  background: rgba(255,77,114,.12);
+  border: 1px solid rgba(255,77,114,.22);
+  font-weight: 850;
+}
