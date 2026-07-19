@@ -1,4 +1,5 @@
 import { BrandMark, StatusPill } from "../../components/Brand";
+import InviteActions from "./InviteActions";
 
 type InvitePageProps = {
   params: Promise<{ code: string }>;
@@ -18,8 +19,6 @@ function cleanCode(code: string) {
 export default async function InvitePage({ params }: InvitePageProps) {
   const { code } = await params;
   const inviteCode = cleanCode(code);
-  const downloadWithRef = `${apkUrl}?ref=${encodeURIComponent(inviteCode)}`;
-  const openApp = `connekfly://invite/${encodeURIComponent(inviteCode)}`;
 
   return (
     <main className="invite-shell">
@@ -29,15 +28,27 @@ export default async function InvitePage({ params }: InvitePageProps) {
         <StatusPill>Invitación ConnekFly</StatusPill>
         <h1>Te invitaron a conectar en ConnekFly.</h1>
         <p>
-          Abre la app si ya la tienes instalada. Si todavía no la tienes, descarga la APK tester oficial y vuelve a abrir este enlace.
+          Este código se conservará temporalmente en el navegador para completar la conexión después de instalar la app.
         </p>
         <div className="invite-code-box">
           <span>Código de invitación</span>
           <strong>{inviteCode || "CONNEKFLY"}</strong>
         </div>
-        <div className="hero-actions centered">
-          <a className="primary-button big" href={openApp}>Abrir ConnekFly</a>
-          <a className="soft-button big" href={downloadWithRef}>Descargar APK</a>
+
+        {inviteCode ? (
+          <InviteActions inviteCode={inviteCode} apkUrl={apkUrl} />
+        ) : (
+          <div className="invite-error" role="alert">
+            El enlace no contiene un código de invitación válido.
+          </div>
+        )}
+
+        <a className="mini-button invite-home-link" href="/">Volver a la web oficial</a>
+      </section>
+    </main>
+  );
+}
+
         </div>
         <a className="mini-button" href="/">Volver a la web oficial</a>
       </section>
